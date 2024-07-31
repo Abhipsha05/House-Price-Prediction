@@ -32,9 +32,9 @@
         <label for="neighborhood">Select Neighborhood:</label>
         <select id="neighborhood" name="neighborhood" onchange="updateHouseIds()">
             <option value="">Select</option>
-            {% for neighborhood in neighborhoods %}
-                <option value="{{ neighborhood }}">{{ neighborhood }}</option>
-            {% endfor %}
+            <option value="Neighborhood1">Neighborhood1</option>
+            <option value="Neighborhood2">Neighborhood2</option>
+            <!-- Add more options here as needed -->
         </select>
 
         <br><br>
@@ -50,6 +50,7 @@
     </form>
 
     <h2>Predicted Price:</h2>
-    <p>{{ predicted_price }}</p>
+    <p id="predicted_price"></p>
 </body>
 </html>
+
