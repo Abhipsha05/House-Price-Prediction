@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <script>
+        function updateHouseIds() {
+            const neighborhood = document.getElementById('neighborhood').value;
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/get_house_ids?neighborhood=${neighborhood}`, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const houseIds = JSON.parse(xhr.responseText).house_ids;
+                    const houseIdSelect = document.getElementById('house_id');
+                    houseIdSelect.innerHTML = '<option value="">Select</option>'; // Clear previous options
+                    houseIds.forEach(function (id) {
+                        const option = document.createElement('option');
+                        option.value = id;
+                        option.textContent = id;
+                        houseIdSelect.appendChild(option);
+                    });
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <h1>House Price Prediction</h1>
+    <form action="/predict" method="POST">
+        <label for="neighborhood">Select Neighborhood:</label>
+        <select id="neighborhood" name="neighborhood" onchange="updateHouseIds()">
+            <option value="">Select</option>
+            {% for neighborhood in neighborhoods %}
+                <option value="{{ neighborhood }}">{{ neighborhood }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="house_id">Select House ID:</label>
+        <select id="house_id" name="house_id">
+            <option value="">Select</option>
+        </select>
+
+        <br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    <h2>Predicted Price:</h2>
+    <p>{{ predicted_price }}</p>
+</body>
+</html>
